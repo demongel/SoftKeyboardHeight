@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">KeyboardHeight</string>
+    <string name="info">CLick the back button to close the keyboard, click the EditText to open it again.</string>
+    <string name="height">Keyboard height (pixels):</string>
+</resources>
