@@ -73,6 +73,11 @@ public class KeyboardHeightProvider extends PopupWindow {
      */
     private Activity activity;
 
+
+    private boolean firstStarted = true;
+
+    private int bias = 0;
+
     /**
      * Construct a new KeyboardHeightProvider
      *
@@ -161,11 +166,23 @@ public class KeyboardHeightProvider extends PopupWindow {
         Rect rect = new Rect();
         popupView.getWindowVisibleDisplayFrame(rect);
 
-        // REMIND, you may like to change this using the fullscreen size of the phone
-        // and also using the status bar and navigation bar heights of the phone to calculate
-        // the keyboard height. But this worked fine on a Nexus.
         int orientation = getScreenOrientation();
         int keyboardHeight = screenSize.y - rect.bottom;
+
+
+
+        if(firstStarted){
+            firstStarted = false;
+            bias = - keyboardHeight;
+            /*
+            正常情况下，若软键盘未弹出，screenSize.y - rect.bottom 应该为0
+            * 但是在小米9上测试，实际上为一个负数值。
+            * 所以在第一次执行到这里时，记录一个偏移值。
+            * 随后用这个偏移值修复keyboardHeight为正确的高度。
+            * */
+        }
+
+        keyboardHeight += bias;
 
         if (keyboardHeight == 0) {
             notifyKeyboardHeightChanged(0, orientation);
